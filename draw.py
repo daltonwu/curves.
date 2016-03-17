@@ -3,18 +3,26 @@ from matrix import *
 import math
 
 def add_circle(points, cx, cy, cz, r, step):
-    t = 0
     x = cx + r
     y = cy + r
+    t = 0
     while t < 1:
-        points.add_point(points, cx, cy)
+        points.add_point(points, x, y)
+        x = cx + r * math.cos(2 * math.pi * t)
+        y = cy + r * math.sin(2 * math.pi * t)
+        points.add_point(points, x, y)
         t += step
-        x = r * math.cos(t) + cx
-        y = r * math.sin(t) + cy
+    points.add_point(points, x, y)
     points.add_point(points, cx + r, cy + r)
 
 def add_curve(points, x0, y0, x1, y1, x2, y2, x3, y3, step, curve_type):
-    pass
+    name = curve_type.upper().lower()
+    if name == "bezier":
+        print "bezier detected"
+    elif name == "hermite":
+        print "hermite detected"
+    else:
+        print "Error: curve type unknown: " + curve_type
 
 def draw_lines(matrix, screen, color):
     if len(matrix) < 2:
